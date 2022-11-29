@@ -1,0 +1,9 @@
+<!DOCTYPE RCC><RCC version="1.0">
+	<qresource>
+		<file>key.pem</file>
+		<file>key.key</file>
+		<file>1.png</file>
+		<file>notification.wav</file>
+		<file>Settings.ini</file>
+	</qresource>
+</RCC>
