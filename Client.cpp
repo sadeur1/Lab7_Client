@@ -248,10 +248,39 @@ void Client::saveXML()
         xmlWriter.writeAttribute("number",QString().setNum(k));
         int f =0;
         QStringList g = _info->item(i)->text().split(":");
+        qDebug() << _showIP+_showTime;
         for (auto j: QString("date ip name text").split(" "))
         {
-            if (j != "ip" && j != "text")
+            if (j != "text")
             {
+                if (!_showIP && j == "ip")
+                {
+                    if ("you"==g[_showIP+_showTime])
+                    {
+                        xmlWriter.writeStartElement(j);
+                        xmlWriter.writeCharacters("127.0.0.1");
+                        xmlWriter.writeEndElement();
+                        continue;
+                    }
+                    for (int ij = 0; ij < usersname.size(); ++ij)
+                    {
+                        if (usersname[ij] == g[_showIP+_showTime])
+                        {
+                            xmlWriter.writeStartElement(j);
+                            xmlWriter.writeCharacters(usersIP[ij]);
+                            xmlWriter.writeEndElement();
+                            break;
+                        }
+                    }
+                  continue;
+                }
+                if(!_showTime &&  j == "date")
+                {
+                    xmlWriter.writeStartElement(j);
+                    xmlWriter.writeCharacters(usersMessageTime[i]);
+                    xmlWriter.writeEndElement();
+                    continue;
+                }
                 xmlWriter.writeStartElement(j);
                 xmlWriter.writeCharacters(g[f]);
                 xmlWriter.writeEndElement();
@@ -279,19 +308,6 @@ void Client::saveXML()
                     xmlWriter.writeCharacters(g[f]);
                     xmlWriter.writeEndElement();
                     f++;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < usersname.size(); ++i)
-                {
-                    if (usersname[i] == g[1])
-                    {
-                        xmlWriter.writeStartElement(j);
-                        xmlWriter.writeCharacters(usersIP[i]);
-                        xmlWriter.writeEndElement();
-                        break;
-                    }
                 }
             }
         }
